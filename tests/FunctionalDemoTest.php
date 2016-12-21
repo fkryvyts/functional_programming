@@ -66,6 +66,20 @@ class FunctionalDemoTest extends TestCase
 
         $this->assertEquals(false, $result);
 
+        $hose = $basket->getProducts()->any(function(Product $product) {
+            return $product->getCode() == 'PR-WTZ-08-50';
+        })->getOrElse(null);
+
+        $this->assertEquals('Wąż WTZ 8x12,5 mm', $hose->getName());
+
+        $totalAmount = $basket->getProducts()->map(function(Product $product) {
+            return $product->getPrice()->multiply($product->getAmount());
+        })->foldLeft(new Money(0, new Currency('PLN')), function(Money $accumulated, Money $current) {
+            return $accumulated->add($current);
+        });
+
+        $targetAmount = new Money(18525, new Currency('PLN'));
+        $this->assertEquals(true, $targetAmount->equals($totalAmount));
     }
 
     /**

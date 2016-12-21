@@ -18,7 +18,7 @@ class Product
     /** @var string */
     private $name;
 
-    /** @var string */
+    /** @var Money */
     private $price;
 
     /** @var int */
@@ -56,9 +56,9 @@ class Product
     }
 
     /**
-     * @return string
+     * @return Money
      */
-    public function getPrice() : string
+    public function getPrice() : Money
     {
         return $this->price;
     }
