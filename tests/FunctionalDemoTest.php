@@ -33,15 +33,6 @@ class FunctionalDemoTest extends TestCase
         $this->assertEquals('Finland', $country);
     }
 
-    public function testEither()
-    {
-
-    }
-
-    public function testMatch()
-    {
-    }
-
     public function testList()
     {
         $contactInformation = $this->initContactInformationRepository()
