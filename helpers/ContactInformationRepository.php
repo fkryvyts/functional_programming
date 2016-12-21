@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * Author: sa10
+ * Author: garcher
  * Date: 12.12.16
  * Time: 03:04
  */
@@ -31,6 +31,6 @@ class ContactInformationRepository
      */
     public function getContactInformation(string $userName) : Option
     {
-        return Some::of(isset($this->contactInformations[$userName]) ? $this->contactInformations[$userName] : null);
+        return Some::of($this->contactInformations[$userName] ?: null);
     }
 }
