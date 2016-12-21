@@ -66,11 +66,13 @@ class FunctionalDemoTest extends TestCase
 
         $this->assertEquals(false, $result);
 
-        $hose = $basket->getProducts()->any(function(Product $product) {
+        $hoseName = $basket->getProducts()->any(function(Product $product) {
             return $product->getCode() == 'PR-WTZ-08-50';
+        })->map(function(Product $product){
+            return $product->getName();
         })->getOrElse(null);
 
-        $this->assertEquals('Wąż WTZ 8x12,5 mm', $hose->getName());
+        $this->assertEquals('Wąż WTZ 8x12,5 mm', $hoseName);
 
         $totalAmount = $basket->getProducts()->map(function(Product $product) {
             return $product->getPrice()->multiply($product->getAmount());
@@ -80,6 +82,15 @@ class FunctionalDemoTest extends TestCase
 
         $targetAmount = new Money(18525, new Currency('PLN'));
         $this->assertEquals(true, $targetAmount->equals($totalAmount));
+
+        $head = $basket->getProducts()->head();
+        $this->assertEquals(new Product('78340', 'Biustonosz Nipplex Adriana Push-up', new Money(6685, new Currency('PLN'))), $head);
+
+        $everyThirdProduct = $basket->getProducts()->withEvery(3);
+
+        $this->assertEquals(new ListCollection([
+            new Product('TG-115E-032', 'Kompensator gumowy typ 115 EPDM, DN32, PN10/16', new Money(10924, new Currency('PLN'))),
+        ]), $everyThirdProduct);
     }
 
     /**
